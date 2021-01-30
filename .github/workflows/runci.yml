@@ -1,0 +1,7 @@
+name: runci
+on: [push]
+jobs:
+  runcitests:
+    runs-on: ubuntu-latest
+    steps:
+      - run: ./runci
