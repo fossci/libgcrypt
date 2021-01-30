@@ -1,0 +1,17 @@
+#!/bin/bash
+set -euo pipefail
+
+EXTRA_CONFIGURE="--disable-doc"
+
+[ -e autogen.sh ] && ./autogen.sh
+[ -e bootstrap ] && ./bootstrap
+
+export ASAN_OPTIONS="abort_on_error=1:detect_stack_use_after_return=1:detect_leaks=0"
+./configure $EXTRA_CONFIGURE CFLAGS="-fsanitize=address" CXXFLAGS="-fsanitize=address" LDFLAGS="-fsanitize=address"
+make check
+
+make clean
+
+UBSANFLAGS="-fsanitize=undefined -fno-sanitize-recover=all"
+./configure $EXTRA_CONFIGURE CFLAGS="$UBSANFLAGS" CXXFLAGS="$UBSANFLAGS" LDFLAGS="$UBSANFLAGS"
+make check
