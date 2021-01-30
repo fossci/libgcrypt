@@ -3,6 +3,8 @@ set -euo pipefail
 
 EXTRA_CONFIGURE="--disable-doc"
 
+[ -e runci-local ] && ./runci-local
+
 [ -e autogen.sh ] && ./autogen.sh
 [ -e bootstrap ] && ./bootstrap
 
